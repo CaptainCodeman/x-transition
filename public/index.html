@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="transition.js"></script>
+</head>
+
+<body class="x-full y-full bg-gray-100">
+<!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<div>
+  <nav class="bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-on-dark.svg" alt="Workflow logo">
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</a>
+
+              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Team</a>
+
+              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Projects</a>
+
+              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Calendar</a>
+
+              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Reports</a>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700" aria-label="Notifications">
+              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+            </button>
+
+            <!-- Profile dropdown -->
+            <div class="ml-3 relative">
+              <div>
+                <button class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true" onclick="profileDropdown.show = !profileDropdown.show">
+                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                </button>
+              </div>
+              <!--
+                Profile dropdown panel, show/hide based on dropdown state.
+
+                Entering: "transition ease-out duration-100"
+                  From: "transform opacity-0 scale-95"
+                  To: "transform opacity-100 scale-100"
+                Leaving: "transition ease-in duration-75"
+                  From: "transform opacity-100 scale-100"
+                  To: "transform opacity-0 scale-95"
+              -->
+              <x-transition
+                id="profileDropdown"
+                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10"
+                enter-active="transition ease-out duration-100"
+                enter-from="transform opacity-0 scale-95"
+                enter-to="transform opacity-100 scale-100"
+                leave-active="transition ease-in duration-75"
+                leave-from="transform opacity-100 scale-100"
+                leave-to="transform opacity-0 scale-95"
+              >
+                <div id="profile" class="py-1 rounded-md bg-white shadow-xs">
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                </div>
+              </x-transition>
+            </div>
+          </div>
+        </div>
+        <div class="-mr-2 flex md:hidden">
+          <!-- Mobile menu button -->
+          <button id="mobileMenuButton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white" onclick="toggleMenu()">
+            <!-- Menu open: "hidden", Menu closed: "block" -->
+            <svg class="block h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!-- Menu open: "block", Menu closed: "hidden" -->
+            <svg class="hidden h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      Mobile menu, toggle classes based on menu state.
+
+      Open: "block", closed: "hidden"
+    -->
+    <div id="mobileMenu" class="hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</a>
+
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Team</a>
+
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Projects</a>
+
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Calendar</a>
+
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Reports</a>
+      </div>
+      <div class="pt-4 pb-3 border-t border-gray-700">
+        <div class="flex items-center px-5 space-x-3">
+          <div class="flex-shrink-0">
+            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+          </div>
+          <div class="space-y-1">
+            <div class="text-base font-medium leading-none text-white">Tom Cook</div>
+            <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
+          </div>
+        </div>
+        <div class="mt-3 px-2 space-y-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Your Profile</a>
+
+          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Settings</a>
+
+          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+<!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<div class="relative bg-indigo-600">
+  <div class="max-w-screen-xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+    <div class="pr-16 sm:text-center sm:px-16">
+      <p class="font-medium text-white">
+        <span class="md:hidden">
+          We announced a new product!
+        </span>
+        <span class="hidden md:inline">
+          Big news! We're excited to announce a brand new product.
+        </span>
+        <span class="block sm:ml-2 sm:inline-block">
+          <a href="#" class="text-white font-bold underline">
+            Learn more &rarr;
+          </a>
+        </span>
+      </p>
+    </div>
+    <div class="absolute inset-y-0 right-0 pt-1 pr-1 flex items-start sm:pt-1 sm:pr-2 sm:items-start">
+      <button type="button" class="flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500 transition ease-in-out duration-150" aria-label="Dismiss">
+        <!-- Heroicon name: x -->
+        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+      <h1 class="text-lg leading-6 font-semibold text-gray-900">
+        Dashboard
+      </h1>
+    </div>
+  </header>
+  <main>
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <!-- Replace with your content -->
+      <!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Jane Cooper</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Paradigm Representative</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Cody Fisher</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Lead Security Associate</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Esther Howard</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Assurance Administrator</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1498551172505-8ee7ad69f235?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Jenny Wilson</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Chief Accountability Analyst</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1532417344469-368f9ae6d187?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Kristin Watson</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Investor Data Orchestrator</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Cameron Williamson</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Product Infrastructure Executive</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Courtney Henry</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Investor Factors Associate</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
+    <div class="flex-1 flex flex-col p-8">
+      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Theresa Webb</h3>
+      <dl class="mt-1 flex-grow flex flex-col justify-between">
+        <dt class="sr-only">Title</dt>
+        <dd class="text-gray-500 text-sm leading-5">Global Division Officer</dd>
+        <dt class="sr-only">Role</dt>
+        <dd class="mt-3">
+          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
+        </dd>
+      </dl>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="-mt-px flex">
+        <div class="w-0 flex-1 flex border-r border-gray-200">
+          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: mail -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+            <span class="ml-3">Email</span>
+          </a>
+        </div>
+        <div class="-ml-px w-0 flex-1 flex">
+          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
+            <!-- Heroicon name: phone -->
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            <span class="ml-3">Call</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
+      <!-- /End replace -->
+    </div>
+  </main>
+</div>
+<script>
+  function toggleMenu() {
+    mobileMenu.classList.toggle('hidden')
+    mobileMenuButton.children[0].classList.toggle('block')
+    mobileMenuButton.children[0].classList.toggle('hidden')
+    mobileMenuButton.children[1].classList.toggle('block')
+    mobileMenuButton.children[1].classList.toggle('hidden')
+  }
+  const profile = document.querySelector('#profile')
+  console.log(profile)
+</script>
+
+</body>
+
+</html>

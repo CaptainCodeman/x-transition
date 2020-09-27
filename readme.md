@@ -1,0 +1,1 @@
+Transition element for adding simple animation effects to Tailwind CSS when using custom elements
