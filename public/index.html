@@ -7,502 +7,259 @@
   <title>Document</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <script src="transition.js"></script>
+  <script src="/transition.js"></script>
 </head>
 
-<body class="x-full y-full bg-gray-100">
-<!--
-  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
-  Read the documentation to get started: https://tailwindui.com/documentation
--->
-<div>
-  <nav class="bg-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-on-dark.svg" alt="Workflow logo">
-          </div>
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-4">
-              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</a>
+<body class="antialiased font-sans bg-gray-200">
+  <!--
+    Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+    Read the documentation to get started: https://tailwindui.com/documentation
+  -->
+  <div class="h-screen flex overflow-hidden bg-gray-100">
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+    <x-transition id="top">
+      <div class="md:hidden">
+        <div class="fixed inset-0 flex z-40">
+          <!--
+            Off-canvas menu overlay, show/hide based on off-canvas menu state.
 
-              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Team</a>
-
-              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Projects</a>
-
-              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Calendar</a>
-
-              <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Reports</a>
+            Entering: "transition-opacity ease-linear duration-300"
+              From: "opacity-0"
+              To: "opacity-100"
+            Leaving: "transition-opacity ease-linear duration-300"
+              From: "opacity-100"
+              To: "opacity-0"
+          -->
+          <x-transition id="overlay"
+              enter="transition-opacity ease-linear duration-300"
+              enter-from="opacity-0"
+              enter-to="opacity-100"
+              leave="transition-opacity ease-linear duration-300"
+              leave-from="opacity-100"
+              leave-to="opacity-0">
+            <div class="fixed inset-0">
+              <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
             </div>
-          </div>
-        </div>
-        <div class="hidden md:block">
-          <div class="ml-4 flex items-center md:ml-6">
-            <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700" aria-label="Notifications">
-              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
+          </x-transition>
+          <!--
+            Off-canvas menu, show/hide based on off-canvas menu state.
 
-            <!-- Profile dropdown -->
-            <div class="ml-3 relative">
-              <div>
-                <button class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true" onclick="profileDropdown.show = !profileDropdown.show">
-                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                </button>
+            Entering: "transition ease-in-out duration-300 transform"
+              From: "-translate-x-full"
+              To: "translate-x-0"
+            Leaving: "transition ease-in-out duration-300 transform"
+              From: "translate-x-0"
+              To: "-translate-x-full"
+          -->
+          <x-transition id="menu"
+              enter="transition ease-in-out duration-300 transform"
+              enter-from="-translate-x-full"
+              enter-to="translate-x-0"
+              leave="transition ease-in-out duration-300 transform"
+              leave-from="translate-x-0"
+              leave-to="-translate-x-full">
+            <div class="relative flex-1 flex flex-col max-w-xs w-full bg-white">
+              <div class="absolute top-0 right-0 -mr-14 p-1">
+                <x-transition id="close-button">
+                  <button class="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:bg-gray-600" aria-label="Close sidebar" onclick="toggleSidebar(event)">
+                    <svg class="h-6 w-6 text-white" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </x-transition>
               </div>
-              <!--
-                Profile dropdown panel, show/hide based on dropdown state.
-
-                Entering: "transition ease-out duration-100"
-                  From: "transform opacity-0 scale-95"
-                  To: "transform opacity-100 scale-100"
-                Leaving: "transition ease-in duration-75"
-                  From: "transform opacity-100 scale-100"
-                  To: "transform opacity-0 scale-95"
-              -->
-              <x-transition
-                id="profileDropdown"
-                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10"
-                enter-active="transition ease-out duration-100"
-                enter-from="transform opacity-0 scale-95"
-                enter-to="transform opacity-100 scale-100"
-                leave-active="transition ease-in duration-75"
-                leave-from="transform opacity-100 scale-100"
-                leave-to="transform opacity-0 scale-95"
-              >
-                <div id="profile" class="py-1 rounded-md bg-white shadow-xs">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
-
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+              <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+                <div class="flex-shrink-0 flex items-center px-4">
+                  <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-on-white.svg" alt="Workflow">
                 </div>
-              </x-transition>
+                <nav class="mt-5 px-2 space-y-1">
+                  <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-900 rounded-md bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150">
+                    <!-- Heroicon name: home -->
+                    <svg class="mr-4 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Dashboard
+                  </a>
+
+                  <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition ease-in-out duration-150">
+                    <!-- Heroicon name: users -->
+                    <svg class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    Team
+                  </a>
+
+                  <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition ease-in-out duration-150">
+                    <!-- Heroicon name: folder -->
+                    <svg class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                    Projects
+                  </a>
+
+                  <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition ease-in-out duration-150">
+                    <!-- Heroicon name: calendar -->
+                    <svg class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Calendar
+                  </a>
+
+                  <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition ease-in-out duration-150">
+                    <!-- Heroicon name: inbox -->
+                    <svg class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    Documents
+                  </a>
+
+                  <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition ease-in-out duration-150">
+                    <!-- Heroicon name: chart-bar -->
+                    <svg class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Reports
+                  </a>
+                </nav>
+              </div>
+              <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+                <a href="#" class="flex-shrink-0 group block focus:outline-none">
+                  <div class="flex items-center">
+                    <div>
+                      <img class="inline-block h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-base leading-6 font-medium text-gray-700 group-hover:text-gray-900">
+                        Tom Cook
+                      </p>
+                      <p class="text-sm leading-5 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                        View profile
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
             </div>
+          </x-transition>
+          <div class="flex-shrink-0 w-14">
+            <!-- Force sidebar to shrink to fit close icon -->
           </div>
         </div>
-        <div class="-mr-2 flex md:hidden">
-          <!-- Mobile menu button -->
-          <button id="mobileMenuButton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white" onclick="toggleMenu()">
-            <!-- Menu open: "hidden", Menu closed: "block" -->
-            <svg class="block h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <!-- Menu open: "block", Menu closed: "hidden" -->
-            <svg class="hidden h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+      </div>
+    </x-transition>
+
+    <!-- Static sidebar for desktop -->
+    <div class="hidden md:flex md:flex-shrink-0">
+      <div class="flex flex-col w-64">
+        <!-- Sidebar component, swap this element with another sidebar if you like -->
+        <div class="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
+          <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+            <div class="flex items-center flex-shrink-0 px-4">
+              <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-on-white.svg" alt="Workflow">
+            </div>
+            <nav class="mt-5 flex-1 px-2 bg-white space-y-1">
+              <a href="#" class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 rounded-md bg-gray-100 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150">
+                <!-- Heroicon name: home -->
+                <svg class="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Dashboard
+              </a>
+
+              <a href="#" class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition ease-in-out duration-150">
+                <!-- Heroicon name: users -->
+                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                Team
+              </a>
+
+              <a href="#" class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition ease-in-out duration-150">
+                <!-- Heroicon name: folder -->
+                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                Projects
+              </a>
+
+              <a href="#" class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition ease-in-out duration-150">
+                <!-- Heroicon name: calendar -->
+                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Calendar
+              </a>
+
+              <a href="#" class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition ease-in-out duration-150">
+                <!-- Heroicon name: inbox -->
+                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                Documents
+              </a>
+
+              <a href="#" class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition ease-in-out duration-150">
+                <!-- Heroicon name: chart-bar -->
+                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Reports
+              </a>
+            </nav>
+          </div>
+          <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+            <a href="#" class="flex-shrink-0 w-full group block">
+              <div class="flex items-center">
+                <div>
+                  <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900">
+                    Tom Cook
+                  </p>
+                  <p class="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 transition ease-in-out duration-150">
+                    View profile
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-
-    <!--
-      Mobile menu, toggle classes based on menu state.
-
-      Open: "block", closed: "hidden"
-    -->
-    <div id="mobileMenu" class="hidden md:hidden">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</a>
-
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Team</a>
-
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Projects</a>
-
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Calendar</a>
-
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Reports</a>
+    <div class="flex flex-col w-0 flex-1 overflow-hidden">
+      <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
+        <button class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150" aria-label="Open sidebar" onclick="toggleSidebar(event)">
+          <!-- Heroicon name: menu -->
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
       </div>
-      <div class="pt-4 pb-3 border-t border-gray-700">
-        <div class="flex items-center px-5 space-x-3">
-          <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+      <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabindex="0">
+        <div class="pt-2 pb-6 md:py-6">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
           </div>
-          <div class="space-y-1">
-            <div class="text-base font-medium leading-none text-white">Tom Cook</div>
-            <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <!-- Replace with your content -->
+            <div class="py-4">
+              <div class="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
+            </div>
+            <!-- /End replace -->
           </div>
         </div>
-        <div class="mt-3 px-2 space-y-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Your Profile</a>
-
-          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Settings</a>
-
-          <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Sign out</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-<!--
-  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
-  Read the documentation to get started: https://tailwindui.com/documentation
--->
-<div class="relative bg-indigo-600">
-  <div class="max-w-screen-xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
-    <div class="pr-16 sm:text-center sm:px-16">
-      <p class="font-medium text-white">
-        <span class="md:hidden">
-          We announced a new product!
-        </span>
-        <span class="hidden md:inline">
-          Big news! We're excited to announce a brand new product.
-        </span>
-        <span class="block sm:ml-2 sm:inline-block">
-          <a href="#" class="text-white font-bold underline">
-            Learn more &rarr;
-          </a>
-        </span>
-      </p>
-    </div>
-    <div class="absolute inset-y-0 right-0 pt-1 pr-1 flex items-start sm:pt-1 sm:pr-2 sm:items-start">
-      <button type="button" class="flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500 transition ease-in-out duration-150" aria-label="Dismiss">
-        <!-- Heroicon name: x -->
-        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      </main>
     </div>
   </div>
-</div>
+  <script>
+    function toggleSidebar(e) {
+      e && e.stopPropagation()
+      document.querySelectorAll('x-transition').forEach(x => x.open = !x.open)
+    }
 
-  <header class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-lg leading-6 font-semibold text-gray-900">
-        Dashboard
-      </h1>
-    </div>
-  </header>
-  <main>
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <!-- Replace with your content -->
-      <!--
-  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
-  Read the documentation to get started: https://tailwindui.com/documentation
--->
-<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Jane Cooper</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Paradigm Representative</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Cody Fisher</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Lead Security Associate</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Esther Howard</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Assurance Administrator</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1498551172505-8ee7ad69f235?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Jenny Wilson</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Chief Accountability Analyst</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1532417344469-368f9ae6d187?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Kristin Watson</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Investor Data Orchestrator</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Cameron Williamson</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Product Infrastructure Executive</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Courtney Henry</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Investor Factors Associate</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow">
-    <div class="flex-1 flex flex-col p-8">
-      <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-      <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium">Theresa Webb</h3>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Title</dt>
-        <dd class="text-gray-500 text-sm leading-5">Global Division Officer</dd>
-        <dt class="sr-only">Role</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">Admin</span>
-        </dd>
-      </dl>
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <span class="ml-3">Email</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-            <span class="ml-3">Call</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
-</ul>
-      <!-- /End replace -->
-    </div>
-  </main>
-</div>
-<script>
-  function toggleMenu() {
-    mobileMenu.classList.toggle('hidden')
-    mobileMenuButton.children[0].classList.toggle('block')
-    mobileMenuButton.children[0].classList.toggle('hidden')
-    mobileMenuButton.children[1].classList.toggle('block')
-    mobileMenuButton.children[1].classList.toggle('hidden')
-  }
-  const profile = document.querySelector('#profile')
-  console.log(profile)
-</script>
-
+    // toggleSidebar()
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "captaincodeman-experiment"
+  },
+  "targets": {
+    "captaincodeman-experiment": {
+      "hosting": {
+        "transitions": [
+          "x-transition"
+        ]
+      }
+    }
+  }
+}

@@ -11,8 +11,7 @@ module.exports = {
     mode: 'all',
     preserveHtmlElements: false,
     content: [
-      'public/index.html',
-      './src/**/*.html',
+      'public/*.html',
     ],
   },
   theme: {

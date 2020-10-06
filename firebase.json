@@ -1,0 +1,22 @@
+{
+  "hosting": {
+    "target": "transitions",
+    "public": "public",
+    "ignore": [
+      "*.map"
+    ],
+    "headers": [{
+      "source": "**/*.@(jpg|jpeg|gif|png|svg|ico)",
+      "headers": [{
+        "key": "Cache-Control",
+        "value": "max-age=86400"
+      }]
+    }, {
+      "source": "**/*.@(html|js|css|json|txt)",
+      "headers": [{
+        "key": "Cache-Control",
+        "value": "max-age=300, must-revalidate"
+      }]
+    }]
+  }
+}

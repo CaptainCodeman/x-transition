@@ -1,6 +1,8 @@
 import { terser } from 'rollup-plugin-terser'
 import summary from 'rollup-plugin-summary'
 
+const production = !process.env.ROLLUP_WATCH
+
 export default {
   input: 'src/transition.js',
   output: {
@@ -9,13 +11,13 @@ export default {
     sourcemap: 'hidden',
   },
   plugins: [
-    terser({
+    production && terser({
       mangle: {
         properties: {
           regex: /_$/,
         }
       },
     }),
-    summary(),
+    production && summary(),
   ],
 }
