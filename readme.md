@@ -4,7 +4,7 @@ Web Component for adding animated transition effects by swapping CSS classes. Us
 
 Automatically handles nested transitions so parent isn't hidden until child transitions have completed.
 
-684 bytes Brotli, 840 bytes Gzipped, 1.86 KB Minified.
+688 bytes Brotli, 850 bytes Gzipped, 2.22 KB Minified.
 
 [demo](https://x-transition.web.app/)
 
@@ -104,6 +104,12 @@ Include in template using Tailwind CSS suggested classes setting show based on a
 ```
 
 ## TODO:
+
+### Group Key
+
+It's possible that a separate set of transitions could be enclosed within some parent that also uses transitions. To avoid them all reacting / waiting on the wrong things, they could use a unique key to group them.
+
+e.g. all mobile menu related transitions might have `key="mobile-menu"` which would make them ignore events from other transitions and vice-versa.
 
 ### Combined classes
 
