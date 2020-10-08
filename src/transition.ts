@@ -25,14 +25,20 @@ class Transition extends HTMLElement {
   }
 
   connectedCallback() {
-    const attr = (name: string) => (this.getAttribute(name) || '').split(' ').filter(x => x)
+    const attr = (name: string, fallback: string) => (
+      this.getAttribute(name) || 
+      this.getAttribute(fallback) ||
+      ''
+    )
+      .split(' ')
+      .filter(x => x)
 
-    this.enter_ = attr('enter')
-    this.enterFrom_ = attr('enter-from')
-    this.enterTo_ = attr('enter-to')
-    this.leave_ = attr('leave')
-    this.leaveFrom_ = attr('leave-from')
-    this.leaveTo_ = attr('leave-to')
+    this.enter_ = attr('enter', 'with')
+    this.enterFrom_ = attr('enter-from', 'hide')
+    this.enterTo_ = attr('enter-to', 'show')
+    this.leave_ = attr('leave', 'with')
+    this.leaveFrom_ = attr('leave-from', 'show')
+    this.leaveTo_ = attr('leave-to', 'hide')
 
     // count children using events
     this.children_ = 0
