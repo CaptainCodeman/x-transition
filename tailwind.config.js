@@ -13,6 +13,9 @@ module.exports = {
     content: [
       'public/*.html',
     ],
+    options: {
+      whitelist: ['pre', 'code'],
+    },
   },
   theme: {
     extend: {
@@ -23,6 +26,7 @@ module.exports = {
   },
   variants: {},
   plugins: [
+    require('@tailwindcss/typography'),
     require('@tailwindcss/ui'),
   ],
 }

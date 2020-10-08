@@ -30,6 +30,7 @@
               From: "opacity-100"
               To: "opacity-0"
           -->
+          <!--
           <x-transition id="overlay"
               enter="transition-opacity ease-linear duration-300"
               enter-from="opacity-0"
@@ -37,6 +38,11 @@
               leave="transition-opacity ease-linear duration-300"
               leave-from="opacity-100"
               leave-to="opacity-0">
+          -->
+          <x-transition id="overlay"
+              with="transition-opacity ease-linear duration-300"
+              hide="opacity-0"
+              show="opacity-100">
             <div class="fixed inset-0">
               <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
             </div>
@@ -239,14 +245,58 @@
       <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabindex="0">
         <div class="pt-2 pb-6 md:py-6">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">
+              &lt;x-transition&gt; example
+            </h1>
           </div>
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <!-- Replace with your content -->
-            <div class="py-4">
-              <div class="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
+            <p class="py-2">
+              A Web Component for adding animated transition effects by swapping CSS classes. Useful if you want to use Tailwind CSS / Tailwind UI with something <em>other</em> than Alpine.js, Vue or React (e.g. lit-element / lit-html or Vanilla JavaScript).
+            </p>
+            <p class="py-2">
+              Resize the screen to show the mobile breakpoint version, then click the menu to see the transitions applied - the menu drawer should slide in from the left and the overlay fade in.
+            </p>
+            <div class="py-2 flex items-center">
+              <a class="text-gray-400" href="https://www.npmjs.com/package/@captaincodeman/transition">
+                <svg class="fill-current" width="31" height="13" xmlns="http://www.w3.org/2000/svg"><g><path d="M0 .43v10.33h8.61v1.73h6.89v-1.73H31V.43H0zm8.61 8.6H6.89V3.88H5.17v5.17H1.72v-6.9h6.89v6.89zm5.17 0v1.73h-3.45v-8.6h6.9v6.88h-3.45zm15.5 0h-1.72V3.88h-1.73v5.17h-1.72V3.87h-1.72v5.17h-3.45V2.15h10.34v6.89z"></path><path d="M13.78 3.88h1.72v3.44h-1.72z"></path></g></svg>
+              </a>
+              <a class="ml-4 text-gray-400" href="https://github.com/CaptainCodeman/x-transition">
+                <svg class="fill-current" width="33" height="33" viewBox="0 0 33 33"><title>Github Link</title><path d="M16.6.46C7.6.46.33 7.76.33 16.76c0 7.17 4.67 13.3 11.14 15.43.8.1 1.1-.4 1.1-.8v-2.8c-4.54.9-5.5-2.2-5.5-2.2-.74-1.9-1.8-2.4-1.8-2.4-1.48-1 .1-1 .1-1 1.64.1 2.5 1.7 2.5 1.7 1.45 2.4 3.8 1.7 4.74 1.3.2-1.1.6-1.8 1.1-2.2-3.6-.4-7.4-1.8-7.4-8.1 0-1.8.7-3.28 1.7-4.4-.1-.4-.7-2.1.2-4.3 0 0 1.4-.48 4.5 1.63 1.3-.36 2.7-.54 4.1-.55 1.4 0 2.8.2 4.1.57 3.1-2.1 4.48-1.7 4.48-1.7.9 2.24.33 3.9.17 4.3 1 1.2 1.6 2.64 1.6 4.44 0 6.23-3.8 7.6-7.43 8 .6.5 1.1 1.5 1.1 3.04v4.47c0 .43.27.94 1.1.8 6.45-2.1 11.1-8.2 11.1-15.4 0-9-7.3-16.3-16.3-16.3"></path></svg>
+              </a>
             </div>
-            <!-- /End replace -->
+            <h2 class="py-2 text-xl font-semibold text-gray-800">Syntax:</h2>
+            <div class="prose prose-sm">
+              <pre class="py-2"><code class="language-html">&lt;!--
+  Off-canvas menu overlay, show/hide based on off-canvas menu state.
+
+  Entering: "transition-opacity ease-linear duration-300"
+    From: "opacity-0"
+    To: "opacity-100"
+  Leaving: "transition-opacity ease-linear duration-300"
+    From: "opacity-100"
+    To: "opacity-0"
+--&gt;
+&lt;x-transition
+  id="overlay"
+  enter="transition-opacity ease-linear duration-300"
+  enter-from="opacity-0"
+  enter-to="opacity-100"
+  leave="transition-opacity ease-linear duration-300"
+  leave-from="opacity-100"
+  leave-to="opacity-0"&gt;
+  &hellip;
+&lt;/x-transition&gt;</code></pre>
+            </div>
+            <p class="py-2">Or, alternatively, using the shortened form:</p>
+            <div class="prose prose-sm">
+              <pre class="py-2"><code class="language-html">&lt;x-transition 
+id="overlay"
+with="transition-opacity ease-linear duration-300"
+hide="opacity-0"
+show="opacity-100"&gt;
+  &hellip;
+&lt;/x-transition&gt;</code></pre>
+            </div>
           </div>
         </div>
       </main>
