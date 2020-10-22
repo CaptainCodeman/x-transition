@@ -12,8 +12,7 @@
     "strictPropertyInitialization": false,
     "lib": [
       "esnext",
-      "dom",
-      "dom.iterable"
+      "dom"
     ],
   },
 }

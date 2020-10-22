@@ -6,7 +6,7 @@ const transitionAdd = 'x-transition-add'
 const transitionDel = 'x-transition-del'
 const transitionEnd = 'x-transition-end'
 
-class Transition extends HTMLElement {
+export class Transition extends HTMLElement {
   private enter_: string[]
   private enterFrom_: string[]
   private enterTo_: string[]
