@@ -166,7 +166,7 @@ export class Transition extends HTMLElement {
   transitioned_(transition: string[]) {
     // if no transition, resolve immediately
     return transition.length
-      ? new Promise(resolve => this.addEventListener('transitionend', e => {
+      ? new Promise<void>(resolve => this.addEventListener('transitionend', e => {
         e.stopPropagation()
         resolve()
       }, { once: true }))
@@ -175,7 +175,7 @@ export class Transition extends HTMLElement {
 
   completed_() {
     // wait for completion of children via event count
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       let count = this.children_
 
       const handler = (e: Event) => {
